@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Some example commands that do more than return output.
+/// </summary>
 public class ExampleCommands : MonoBehaviour
 {
     [SerializeField]
@@ -10,5 +13,19 @@ public class ExampleCommands : MonoBehaviour
     {
         godMode = !godMode;
         return "god mode " + (godMode ? "on" : "off");
+    }
+
+    [ConsoleCommand("disable", "disables the active object")]
+    public static string HandleDisable(string[] args)
+    {
+        DevConsole.SelectedObject.SetActive(false);
+        return "";
+    }
+
+    [ConsoleCommand("enable", "disables the active object")]
+    public static string HandleEnable(string[] args)
+    {
+        DevConsole.SelectedObject.SetActive(true);
+        return "";
     }
 }

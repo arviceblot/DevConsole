@@ -22,15 +22,27 @@ public class DevConsole : MonoBehaviour
     [SerializeField]
     private Text cursorText;
 
-    private GameObject selected;
-    private GameObject cursorOver;
+    /// <summary>
+    /// The selected gameObject.
+    /// </summary>
+    private static GameObject selected;
 
+    /// <summary>
+    /// The gameObject the cursor is currently over.
+    /// </summary>
+    private static GameObject cursorOver;
+
+    /// <summary>
+    /// How we store all the commands.
+    /// </summary>
     private static Dictionary<string, CommandHandler> commands;
 
-    public GameObject SelectedObject
+    public static GameObject SelectedObject
     {
         get { return selected; }
     }
+
+    #region MonoBehaviour
 
     private void Start()
     {
@@ -84,7 +96,13 @@ public class DevConsole : MonoBehaviour
                 consoleLabel.text = "DevConsole";
             }
         }
+
+        // keep focus active
+        inputField.Select();
+        inputField.ActivateInputField();
     }
+
+    #endregion
 
     /// <summary>
     /// Registers a command handler for a specific command.
@@ -135,13 +153,9 @@ public class DevConsole : MonoBehaviour
                 }
                 else
                 {
-                    output.text += "No command found with name '" + input.First() + "'\n";
+                    output.text += CommandNotFound(input.First()) + "\n";
                 }
             }
-
-            // keep focus active
-            inputField.Select();
-            inputField.ActivateInputField();
         }
     }
 
@@ -168,13 +182,27 @@ public class DevConsole : MonoBehaviour
             }
             else
             {
-                return "No command found with name '" + args.First() + "'";
+                return CommandNotFound(args.First());
             }
         }
         else
         {
             return HandleHelp(new string[] { "help" });
         }
+    }
+
+    /// <summary>
+    /// Build an error message for when we can't find the specified command.
+    /// </summary>
+    /// <param name="command">
+    /// The spooky unfound command.
+    /// </param>
+    /// <returns>
+    /// The error message.
+    /// </returns>
+    private static string CommandNotFound(string command)
+    {
+        return "No command found with name '" + command + "'";
     }
 
     /// <summary>
