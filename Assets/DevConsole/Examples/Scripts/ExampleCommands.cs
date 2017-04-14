@@ -22,7 +22,7 @@ public class ExampleCommands : MonoBehaviour
         return "";
     }
 
-    [ConsoleCommand("enable", "disables the active object")]
+    [ConsoleCommand("enable", "enables the active object")]
     public static string HandleEnable(string[] args)
     {
         DevConsole.SelectedObject.SetActive(true);
